@@ -1,0 +1,49 @@
+<head>
+  <title>HTML, CSS and JavaScript demo</title>
+</head>
+<body>
+  <div id="map"></div>
+  <br>
+  <div id="details"></div>
+  <br>
+  <button onclick="buttonClickHandler()">
+  Stop watching location
+</button>
+</body>
+
+<script>
+  // Get current position:
+  //   if (navigator.geolocation) {
+  //     navigator.geolocation.getCurrentPosition(
+  //       (position) => {
+  //         const {latitude, longitude} = position.coords
+  //         let mapUrl = `https://maps.google.com/maps?q=${latitude},${longitude}&output=embed`
+  //         map.innerHTML = `<iframe width="700" height="300" src=${mapUrl}></iframe>`
+  //       },
+  //       (error) => {
+  //         console.log(`Geolocation error: ${error.message}`)
+  //       },
+  //     )
+  //   } else {
+  //     console.log('Geolocation is not supported by this browser.')
+  //   }
+
+  //Watch position:
+
+  const watchId = navigator.geolocation.watchPosition((position) => {
+    const { latitude, longitude } = position.coords
+    // console.log('watchId - ' + watchId)
+    details.innerHTML = `<br> latitude: ${latitude} | Longitude: ${longitude} <br>`
+    // Show a map centered at latitude / longitude.
+    let mapUrl = `https://maps.google.com/maps?q=${latitude},${longitude}&output=embed`
+    map.innerHTML = `<iframe width="700" height="300" src=${mapUrl}></iframe>`
+  })
+
+
+  // Stop watching position:
+
+  function buttonClickHandler() {
+  // Cancel the updates when the user clicks a button.
+  navigator.geolocation.clearWatch(watchId);
+}
+</script>
